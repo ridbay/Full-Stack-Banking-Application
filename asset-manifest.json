@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/Full-Stack-Banking-Application/static/css/main.ab7136cd.chunk.css",
+    "main.js": "/Full-Stack-Banking-Application/static/js/main.11fd28cc.chunk.js",
+    "main.js.map": "/Full-Stack-Banking-Application/static/js/main.11fd28cc.chunk.js.map",
+    "runtime-main.js": "/Full-Stack-Banking-Application/static/js/runtime-main.4bfc9dd3.js",
+    "runtime-main.js.map": "/Full-Stack-Banking-Application/static/js/runtime-main.4bfc9dd3.js.map",
+    "static/js/2.5b8bf0f5.chunk.js": "/Full-Stack-Banking-Application/static/js/2.5b8bf0f5.chunk.js",
+    "static/js/2.5b8bf0f5.chunk.js.map": "/Full-Stack-Banking-Application/static/js/2.5b8bf0f5.chunk.js.map",
+    "static/js/3.9126f725.chunk.js": "/Full-Stack-Banking-Application/static/js/3.9126f725.chunk.js",
+    "static/js/3.9126f725.chunk.js.map": "/Full-Stack-Banking-Application/static/js/3.9126f725.chunk.js.map",
+    "index.html": "/Full-Stack-Banking-Application/index.html",
+    "static/css/main.ab7136cd.chunk.css.map": "/Full-Stack-Banking-Application/static/css/main.ab7136cd.chunk.css.map",
+    "static/js/2.5b8bf0f5.chunk.js.LICENSE.txt": "/Full-Stack-Banking-Application/static/js/2.5b8bf0f5.chunk.js.LICENSE.txt",
+    "static/media/logo.103b5fa1.svg": "/Full-Stack-Banking-Application/static/media/logo.103b5fa1.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4bfc9dd3.js",
+    "static/js/2.5b8bf0f5.chunk.js",
+    "static/css/main.ab7136cd.chunk.css",
+    "static/js/main.11fd28cc.chunk.js"
+  ]
+}
