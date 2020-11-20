@@ -60,7 +60,7 @@ Router.post("/signup", async (req, res) => {
   }
 });
 
-Router.post("/sigin", async (req, res) => {
+Router.post("/signin", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await validateUser(email, password);
@@ -71,7 +71,7 @@ Router.post("/sigin", async (req, res) => {
     }
     const token = await generateAuthToken(user);
     const result = await pool.query(
-      "insert into tokens(access_token, userid) values($1,$1) returning *",
+      "insert into tokens(access_token, userid) values($1,$2) returning *",
       [token, user.userid]
     );
     if (!result.rows[0]) {

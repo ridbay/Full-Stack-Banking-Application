@@ -1,6 +1,6 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { pool } = require("../db/connect");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { pool } = require('../db/connect');
 
 const isInvalidField = (receivedFields, validFieldsToUpdate) => {
   return receivedFields.some(
@@ -10,12 +10,10 @@ const isInvalidField = (receivedFields, validFieldsToUpdate) => {
 
 const validateUser = async (email, password) => {
   const result = await pool.query(
-    "select userid, email, password from bank_user where email = $1",
+    'select userid,  email, password from bank_user where email = $1',
     [email]
   );
-
-  const user = result.row[0];
-
+  const user = result.rows[0];
   if (user) {
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
@@ -36,8 +34,8 @@ const generateAuthToken = async (user) => {
   return token;
 };
 
-module.exports ={
-    isInvalidField,
-    validateUser,
-    generateAuthToken
-}
+module.exports = {
+  isInvalidField,
+  validateUser,
+  generateAuthToken
+};
