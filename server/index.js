@@ -6,6 +6,7 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 
+//Get data coming from the client as JSON 
 app.use(express.json());
 
 app.use(authRoute);

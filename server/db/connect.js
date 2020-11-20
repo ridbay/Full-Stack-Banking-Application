@@ -1,4 +1,6 @@
+
 const {Pool} = require("pg");
+// Create a pool object
 const pool = new Pool({
     user: "postgres",
     password: "postgres",

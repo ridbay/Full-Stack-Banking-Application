@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
+//Import the pool object
 const { pool } = require("../db/connect");
 
 const {
@@ -10,10 +11,12 @@ const {
 const authMiddleWare = require("../middleware/auth");
 
 const Router = express.Router();
-
+// Create a connection pool that handles multiple queries
 Router.post("/signup", async (req, res) => {
   try {
+    
     const { first_name, last_name, email, password } = req.body;
+    
     const validateFieldsToUpdate = [
       "first_name",
       "last_name",
@@ -21,6 +24,7 @@ Router.post("/signup", async (req, res) => {
       "password",
     ];
     const receivedFields = Object.keys(req.body);
+    //Check if the data coming contains field which are needed for registration
     const isInvalidFieldProvided = isInvalidField(
       receivedFields,
       validateFieldsToUpdate
@@ -31,6 +35,7 @@ Router.post("/signup", async (req, res) => {
         signup_error: "Invalid field.",
       });
     }
+    //Query the database to check if the user with the same emain does not exist in the database
     const result = await pool.query(
       "select count(*) as count from bank_user where email=$1",
       [email]
@@ -41,6 +46,7 @@ Router.post("/signup", async (req, res) => {
         signup_error: "User with this email address already exists.",
       });
     }
+    //Encrypt the password before adding to the database
     const hashedPassword = await bcrypt.hash(password, 8);
     await pool.query(
       "insert into bank_user(first_name, last_name, email, password) values($1, $2, $3, $4)",
