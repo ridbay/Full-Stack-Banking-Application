@@ -1,23 +1,25 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
-import { validateFields } from '../utils/common';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { connect } from "react-redux";
+import { Form, Button } from "react-bootstrap";
+import { validateFields } from "../utils/common";
+import { Link } from "react-router-dom";
+import { registerNewUser } from "../actions/auth";
 
 class Register extends React.Component {
   state = {
-    first_name: '',
-    last_name: '',
-    email: '',
-    password: '',
-    cpassword: '',
-    successMsg: '',
-    errorMsg: '',
-    isSubmitted: false
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    cpassword: "",
+    successMsg: "",
+    errorMsg: "",
+    isSubmitted: false,
   };
 
   registerUser = (event) => {
     event.preventDefault();
+ 
     const { first_name, last_name, email, password, cpassword } = this.state;
 
     const fieldsToValidate = [
@@ -25,25 +27,36 @@ class Register extends React.Component {
       { last_name },
       { email },
       { password },
-      { cpassword }
+      { cpassword },
     ];
 
     const allFieldsEntered = validateFields(fieldsToValidate);
     if (!allFieldsEntered) {
       this.setState({
         errorMsg: {
-          signup_error: 'Please enter all the fields.'
-        }
+          signup_error: "Please enter all the fields.",
+        },
       });
     } else {
       if (password !== cpassword) {
         this.setState({
           errorMsg: {
-            signup_error: 'Password and confirm password does not match.'
-          }
+            signup_error: "Password and confirm password does not match.",
+          },
         });
       } else {
         this.setState({ isSubmitted: true });
+        console.log({ first_name, last_name, email, password })
+        this.props
+          .dispatch(registerNewUser({ first_name, last_name, email, password }))
+          .then((response) => {
+            if (response.success) {
+              this.setState({
+                successMsg: "User registerded successfully.",
+                errorMsg: "",
+              });
+            }
+          });
       }
     }
   };
@@ -51,7 +64,7 @@ class Register extends React.Component {
   handleInputChange = (event) => {
     const { name, value } = event.target;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -117,7 +130,7 @@ class Register extends React.Component {
               />
             </Form.Group>
             <div className="action-items">
-            <Button variant="primary" type="submit">
+              <Button variant="primary" type="submit">
                 Register
               </Button>
               <Link to="/" className="btn btn-secondary">

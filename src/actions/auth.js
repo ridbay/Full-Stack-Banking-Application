@@ -1,4 +1,4 @@
-import { SIGN_IN, BASE_API_URL } from "../utils/contants";
+import { SIGN_IN, BASE_API_URL } from "../utils/constants";
 import axios from "axios";
 
 export const signIn = (user) => ({
