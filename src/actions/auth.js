@@ -1,4 +1,5 @@
 import { SIGN_IN, BASE_API_URL } from "../utils/constants";
+import {getErrors} from './errors';
 import axios from "axios";
 
 export const signIn = (user) => ({
@@ -17,7 +18,7 @@ export const initiateLogin = (email, password) => {
       localStorage.setItem("user_token", user.token);
       dispatch(signIn(user));
     } catch (error) {
-      console.log("error", error);
+      error.response && dispatch(getErrors(error.response.data))
     }
   };
 };
@@ -29,6 +30,7 @@ export const registerNewUser = (data) => {
       return { success: true };
     } catch (error) {
       console.log("error", error);
+      error.response && dispatch(getErrors(error.response.data))
       return { success: false };
     }
   };
