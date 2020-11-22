@@ -1,70 +1,75 @@
-import React,{Component} from "react";
+import React from "react";
 import _ from "lodash";
-import {connect} from "react-redux";
-import {Form, Button} from "react-bootstrap";
-import {initiateUpdateProfile} from "../actions/profile";
-import {validateFields} from "../utils/common";
-import {resetErrors} from "../actions/errors";
+import { connect } from "react-redux";
+import { Form, Button } from "react-bootstrap";
+import { initiateUpdateProfile } from "../actions/profile";
+import { validateFields } from "../utils/common";
+import { resetErrors } from "../actions/errors";
 
-class Profile extends Component {
-    state = {
-        first_name: '',
-        last_name: '',
-        email:'',
-        errorMsg:'',
-        isSubmitted: false
-    }
+class Profile extends React.Component {
+  state = {
+    first_name: "",
+    last_name: "",
+    email: "",
+    errorMsg: "",
+    isSubmitted: false,
+  };
 
-    componentDidMount(){
-        const {profile} = this.props;
-        if(!_.isEmpty(profile)){
-            const {first_name, last_name,email} = profile;
-            this.setState({
-                first_name,
-                last_name,
-                email
-            })
-        }
+  componentDidMount() {
+    const { profile } = this.props;
+    if (!_.isEmpty(profile)) {
+      const { first_name, last_name, email } = profile;
+      this.setState({
+        first_name,
+        last_name,
+        email,
+      });
     }
-componentDidUpdate(prevProps){
-    if(!_.isEqual(prevProps.errors, this.props.errors)){
-        this.setState({
-            errorMsg: this.props.errors
-        })
-    }
-    if(!_.isEqual(prevProps.profile, this.props.profile)){
-        const {first_name, last_name, email} = this.props.profile;
-        this.setState({ first_name, last_name,email})
-    }
-}
+  }
 
-componentWillUnmount(){
+  componentDidUpdate(prevProps) {
+    if (!_.isEqual(prevProps.errors, this.props.errors)) {
+      this.setState({
+        errorMsg: this.props.errors,
+      });
+    }
+    if (!_.isEqual(prevProps.profile, this.props.profile)) {
+      const { first_name, last_name, email } = this.props.profile;
+      this.setState({ first_name, last_name, email });
+    }
+  }
+
+  componentWillUnmount() {
     this.props.dispatch(resetErrors());
-}
-handleSubmit=(event)=>{
-    event.preventDefault();
-    const {first_name, last_name} = this.state;
-    const profileDate ={
-        first_name, last_name
-    }
+  }
 
-    const fieldsToValidate=[{first_name}, {last_name}];
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { first_name, last_name } = this.state;
+    const profileData = {
+      first_name,
+      last_name,
+    };
+
+    const fieldsToValidate = [{ first_name }, { last_name }];
+
     const allFieldsEntered = validateFields(fieldsToValidate);
-    if(!allFieldsEntered){
-        this.setState({
-            errorMsg:{
-                update_error: "Please enter all the fields"
-            }
-        })
+    if (!allFieldsEntered) {
+      this.setState({
+        errorMsg: {
+          update_error: "Please enter all the fields.",
+        },
+      });
     } else {
-        this.setState({isSubmitted: true, errorMsg: ''});
-        this.props.dispatch(initiateUpdateProfile(profileData));
+      this.setState({ isSubmitted: true, errorMsg: "" });
+      this.props.dispatch(initiateUpdateProfile(profileData));
     }
-}
-handleOnChange = (event) => {
+  };
+
+  handleOnChange = (event) => {
     const { name, value } = event.target;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -116,10 +121,9 @@ handleOnChange = (event) => {
   }
 }
 
-const mapStateToProps = (state)=>({
-    profile: state.profile,
-    errors: state.errors
-})
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+  errors: state.errors,
+});
 
-
-export default connect(mapStateToProps)(Profile)
+export default connect(mapStateToProps)(Profile);
