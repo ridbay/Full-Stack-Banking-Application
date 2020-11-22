@@ -1,7 +1,8 @@
 import { BASE_API_URL, UPDATE_PROFILE } from "../utils/constants";
 import { getErrors } from "./errors";
 import { history } from "../router/AppRouter";
-import { get, post } from "../utils/api";
+// import { get, post } from "../utils/api";
+import axios from "axios"
 
 export const updateProfile = (profile) => ({
   type: UPDATE_PROFILE,
@@ -11,7 +12,7 @@ export const updateProfile = (profile) => ({
 export const initiateUpdateProfile = (profileData) => {
   return async (dispatch) => {
     try {
-      const profile = await post(`${BASE_API_URL}/profile`, profileData);
+      const profile = await axios.post(`${BASE_API_URL}/profile`, profileData);
       dispatch(updateProfile(profile.data));
       history.push("/profile");
     } catch (error) {
@@ -23,7 +24,7 @@ export const initiateUpdateProfile = (profileData) => {
 export const initiateGetProfile = (email) => {
   return async (dispatch) => {
     try {
-      const profile = await get(`${BASE_API_URL}/profile`);
+      const profile = await axios.get(`${BASE_API_URL}/profile`);
       dispatch(updateProfile(profile.data));
     } catch (error) {
       error.response && dispatch(getErrors(error.response.data));
