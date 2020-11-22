@@ -1,28 +1,28 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
+import _ from "lodash";
 import { Form, Button } from "react-bootstrap";
+import { initiateLogin } from "../actions/auth";
+import { resetErrors } from "../actions/errors";
 import { validateFields } from "../utils/common";
 import { Link } from "react-router-dom";
-import {initiateLogin} from "../actions/auth";
-import _ from "lodash";
-import {resetErrors} from "../actions/errors"
 
-class Login extends Component {
+class Login extends React.Component {
   state = {
     email: "",
     password: "",
     errorMsg: "",
   };
 
-componentDidUpdate(prevProps){
-  if(!_.isEqual(prevProps.errors, this.props.errors)){
-    this.setState({errorMsg: this.props.errors})
+  componentDidUpdate(prevProps) {
+    if (!_.isEqual(prevProps.errors, this.props.errors)) {
+      this.setState({ errorMsg: this.props.errors });
+    }
   }
-}
 
-componentWillUnmount(){
-  this.props.dispatch(resetErrors());
-}
+  componentWillUnmount() {
+    this.props.dispatch(resetErrors());
+  }
 
   handleLogin = (event) => {
     event.preventDefault();
@@ -33,35 +33,38 @@ componentWillUnmount(){
     if (!allFieldsEntered) {
       this.setState({
         errorMsg: {
-          sigin_error: "Please fill all the fields.",
+          signin_error: "Please enter all the fields.",
         },
       });
     } else {
       this.setState({
         errorMsg: {
-          sigin_error: "",
+          signin_error: "",
         },
       });
-      this.props.dispatch(initiateLogin(email, password))
+      // login successful
+      this.props.dispatch(initiateLogin(email, password));
     }
   };
 
   handleInputChange = (event) => {
     const { name, value } = event.target;
+
     this.setState({
       [name]: value,
     });
   };
+
   render() {
     const { errorMsg } = this.state;
     return (
       <div className="login-page">
         <h1>Banking Application</h1>
         <div className="login-form">
-          <form onSubmit={this.handleLogin}>
-            {errorMsg && errorMsg.sigin_error && (
+          <Form onSubmit={this.handleLogin}>
+            {errorMsg && errorMsg.signin_error && (
               <p className="errorMsg centered-message">
-                {errorMsg.sigin_error}
+                {errorMsg.signin_error}
               </p>
             )}
             <Form.Group controlId="email">
@@ -90,14 +93,15 @@ componentWillUnmount(){
                 Create account
               </Link>
             </div>
-          </form>
+          </Form>
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state)=> ({
-  errors: state.errors
-})
+const mapStateToProps = (state) => ({
+  errors: state.errors,
+});
+
 export default connect(mapStateToProps)(Login);
