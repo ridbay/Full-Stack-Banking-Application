@@ -1,9 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
+import _ from "lodash";
 import { Form, Button } from "react-bootstrap";
+import { registerNewUser } from "../actions/auth";
+import { resetErrors } from "../actions/errors";
 import { validateFields } from "../utils/common";
 import { Link } from "react-router-dom";
-import { registerNewUser } from "../actions/auth";
 
 class Register extends React.Component {
   state = {
@@ -17,9 +19,18 @@ class Register extends React.Component {
     isSubmitted: false,
   };
 
+  componentDidUpdate(prevProps) {
+    if (!_.isEqual(prevProps.errors, this.props.errors)) {
+      this.setState({ errorMsg: this.props.errors });
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(resetErrors());
+  }
+
   registerUser = (event) => {
     event.preventDefault();
- 
     const { first_name, last_name, email, password, cpassword } = this.state;
 
     const fieldsToValidate = [
@@ -46,13 +57,12 @@ class Register extends React.Component {
         });
       } else {
         this.setState({ isSubmitted: true });
-        console.log({ first_name, last_name, email, password })
         this.props
           .dispatch(registerNewUser({ first_name, last_name, email, password }))
           .then((response) => {
             if (response.success) {
               this.setState({
-                successMsg: "User registerded successfully.",
+                successMsg: "User registered successfully.",
                 errorMsg: "",
               });
             }
@@ -144,4 +154,8 @@ class Register extends React.Component {
   }
 }
 
-export default connect()(Register);
+const mapStateToProps = (state) => ({
+  errors: state.errors,
+});
+
+export default connect(mapStateToProps)(Register);
